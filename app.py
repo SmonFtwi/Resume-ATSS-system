@@ -13,7 +13,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemini_response(input):
     model = genai.GenerativeModel("gemini-pro")
-    response = model.generate_content(input)
+    response = model.generate_content([input])
     return response.text
 
 
@@ -43,43 +43,42 @@ submit3 = st.button("Percentage match")
 
 
 # prompt sample
-input_prompt1 = """
- You are an experienced Human Resources Manager tasked with reviewing a candidate's CV for an open position
- within your organization. Your objective is to assess the alignment between the candidate's qualifications 
- and the requirements outlined in the job description. Provide a comprehensive evaluation highlighting the 
- strengths and weaknesses of the applicant in relation to the specified job requirements. 
- Additionally, offer recommendations on whether the candidate's profile aligns with the role and
- any additional insights that would aid in the decision-making process.
+resume_summary_prompt = """
 
-Instructions:
-
-Carefully examine the candidate's CV.
-Compare the candidate's skills, experience, and qualifications with the job description.
-Provide detailed feedback on how well the candidate meets the specific requirements of the HR Manager position.
-Highlight any notable strengths or weaknesses in the candidate's profile.
-Conclude your evaluation with a clear recommendation on whether the candidate is a suitable fit for the role.
-Feel free to include any additional insights that could be valuable for the hiring decision.
+ You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description. 
+  Please share your professional evaluation on whether the candidate's profile aligns with the role. 
+ Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
 """
 
-input_prompt3 = """
-You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
-your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
-the job description. First the output should come as percentage and then keywords missing and last final thoughts.
+ats_scanner_prompt = """
+Simulate an ATS (Applicant Tracking System) scanner scenario:
+
+You are an advanced ATS scanner equipped with data science knowledge. Your task is to evaluate the resume against the provided job description. Begin by acting like an ATS and scan the resume for relevant keywords and qualifications. Next, check the job description data provided below against the resume data. Provide a percentage match, list any keywords missing, and conclude with your final thoughts on the candidate's suitability.
+
+---
+
+**Job Description Data:**
+[Insert Job Description Here]
+
+---
 """
+
 if submit1:
     if uploaded_file is not None:
         pdf_content = input_pdf_text(uploaded_file)
-        response = get_gemini_response(input_prompt1)
-        st.subheader("The Repsonse is")
+        print("Extracted Text from PDF:")
+        print(pdf_content)
+        response = get_gemini_response(resume_summary_prompt)
+        st.subheader("The Response is")
         st.write(response)
     else:
-        st.write("Please uplaod the resume")
+        st.write("Please upload the resume")
 
 elif submit3:
     if uploaded_file is not None:
         pdf_content = input_pdf_text(uploaded_file)
-        response = get_gemini_response(input_prompt3)
-        st.subheader("The Repsonse is")
+        response = get_gemini_response(f"{ats_scanner_prompt}\n{pdf_content}")
+        st.subheader("The Response is")
         st.write(response)
     else:
-        st.write("Please uplaod the resume")
+        st.write("Please upload the resume")

@@ -18,19 +18,26 @@ git clone https://github.com/SmonFtwi/Resume-ATSS-system
 cd your-project
 ```
 
-2. Install the required libraries.
+2. create Python virtual environment
+
+```bash
+conda create --name venv python==3.10
+conda activate venv/
+```
+
+3. Install the required libraries.
 
 ```bash
 pip install requirements.txt
 ```
 
-3. Set up the necessary environment variables.
+4. Set up the necessary environment variables.
 
 - **For `google-generativeai`:**
   - Obtain an API key from [here](https://makersuite.google.com/app/apikey).
   - Set the API key as an environment variable.
 
-4. Run the application.
+5. Run the application.
 
 ```bash
 streamlit run app.py
