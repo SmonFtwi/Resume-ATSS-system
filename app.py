@@ -39,9 +39,7 @@ if uploaded_file is not None:
 
 submit3 = st.button("Percentage match")
 
-
 # prompt sample
-
 
 ats_scanner_prompt = """
 Simulate an ATS (Applicant Tracking System) scanner scenario:
