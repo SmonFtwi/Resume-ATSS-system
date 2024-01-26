@@ -37,18 +37,11 @@ if uploaded_file is not None:
     st.write("PDF Uploaded successfully")
 
 
-submit1 = st.button("Tell Me About the Resume")
-
 submit3 = st.button("Percentage match")
 
 
 # prompt sample
-resume_summary_prompt = """
 
- You are an experienced Technical Human Resource Manager,your task is to review the provided resume against the job description. 
-  Please share your professional evaluation on whether the candidate's profile aligns with the role. 
- Highlight the strengths and weaknesses of the applicant in relation to the specified job requirements.
-"""
 
 ats_scanner_prompt = """
 Simulate an ATS (Applicant Tracking System) scanner scenario:
@@ -63,18 +56,7 @@ You are an advanced ATS scanner equipped with data science knowledge. Your task 
 ---
 """
 
-if submit1:
-    if uploaded_file is not None:
-        pdf_content = input_pdf_text(uploaded_file)
-        print("Extracted Text from PDF:")
-        print(pdf_content)
-        response = get_gemini_response(resume_summary_prompt)
-        st.subheader("The Response is")
-        st.write(response)
-    else:
-        st.write("Please upload the resume")
-
-elif submit3:
+if submit3:
     if uploaded_file is not None:
         pdf_content = input_pdf_text(uploaded_file)
         response = get_gemini_response(f"{ats_scanner_prompt}\n{pdf_content}")
